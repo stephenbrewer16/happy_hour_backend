@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_action :set_user, only: [:index, :create, :show, :update, :destroy]
+    before_action :set_user, only: [:show, :update, :destroy]
     def index
         @users = User.all
         render json: @users
@@ -8,7 +8,8 @@ class UsersController < ApplicationController
     def create
         user = User.new(username: params[:username], password: params[:password], email: params[:email], image: params[:image])
         if user.save
-        render json: user
+        token = encode_token(user.id)
+        render json: {user: user, token: token}
         else 
         render json: {errors: user.errors.full_messages}
         end
