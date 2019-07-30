@@ -19,12 +19,11 @@ class ReviewsController < ApplicationController
     end
 
     def update
-               review = Review.update(rating: params[:rating], comment: params[:comment], bar_id: params[:bar_id], user_id: params[:user_id])
-        if review.save
-            render json: review
-        else
-            render json: {errors: review.errors.full_messages}
-        end
+        review = Review.find(params[:id])
+        review.update(rating: params[:rating], comment: params[:comment])
+
+        render json: review
+
     end
 
     def destroy
