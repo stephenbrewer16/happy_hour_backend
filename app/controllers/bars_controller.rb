@@ -6,7 +6,12 @@ class BarsController < ApplicationController
     end
 
     def create
-        
+    bar = Bar.new(name: params[:name], location: params[:location])
+        if bar.save
+            render json: bar
+        else
+            render json: {errors: bar.errors.full_messages}
+        end
     end
 
     def show
